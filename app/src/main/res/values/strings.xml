@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ContactosAppBurbanoRenato</string>
+    <string name="password">Password</string>
+    <string name="titleApp">Welcome to the system contact</string>
+    <string name="user">User/Email</string>
+    <string name="register">Register</string>
+    <string name="recover">Recover Password</string>
 </resources>

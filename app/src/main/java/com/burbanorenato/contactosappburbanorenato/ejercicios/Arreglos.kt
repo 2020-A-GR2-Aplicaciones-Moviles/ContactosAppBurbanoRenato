@@ -1,7 +1,7 @@
-package com.burbanorenato.contactosappburbanorenato.ejercicios
+package com.epnfis.contactosapp.ejercicios
 
 class Arreglos {
-    fun ejemploArreglos(){
+    fun EjemploArreglos(){
         val array = arrayOf(1,2,3) // inferred type Array<Int>
         println(array.get(0)) //Get position
         println(array.size) //Get size
@@ -14,6 +14,5 @@ class Arreglos {
         val array5 = Array (5) { it * 2 } // Prints: [0, 2, 4, 8, 10]
 
         var pair = "Everest" to 8848 // Inferred type: Pair<String, Int>
-
     }
 }

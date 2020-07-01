@@ -1,7 +1,8 @@
-package com.burbanorenato.contactosappburbanorenato.ejercicios
+package com.epnfis.contactosapp.ejercicios
 
 class Listas {
-    fun EjemploListasNormal() {
+    fun EjemploLista() {
+        val list = listOf(1, 2, 3, 4, 5, 6) // Inferred type is List
         val lestaciones: List<String> = listOf("Primavera", "Verano", "Otoño", "Invierno")
         println(lestaciones) // Imprime: [Primavera, Verano, Otoño, Invierno]
         println(lestaciones.get(2)) // Imprime: Otoño
@@ -12,7 +13,29 @@ class Listas {
         println("resultado $res ")// Devuelve resultado [6, 9, 12])
     }
 
+    fun EjemploLista2(){
+        val capitols = listOf("England" to "London", "Poland" to "Warsaw")
+        val text = capitols.map { (country, _) -> country.toUpperCase() }
+            .onEach { println(it) }
+            .filter { it.startsWith("P") }
+            .joinToString (prefix = "Countries prefix P:") // Prints: ENGLAND POLAND
+            println(text) // Prints: Countries prefix P: POLAND
+    }
+
+    fun EjemploListaMutableEnteros(){
+        fun MutableList<Int>.swap(index0: Int, index1: Int) {
+            val tmp = this[index0]
+            this[index0] = this[index1]
+            this[index1] = tmp
+        }
+        var myListInt : MutableList<Int> = mutableListOf(1,2)
+        myListInt.swap(1,0)
+        println("$myListInt[0],myListInt[1]")
+    }
+
+
     fun EjemploListasMutable() {
+        val mutableList = mutableListOf(1, 2, 3, 4, 5, 6) // Inferred type is MutableList
         var amigos: MutableList<String> = mutableListOf("Paco", "Miguel", "Toni")
         println("Tengo ${amigos.size} amigos: $amigos") // Imprime: Tengo 3 amigos: [Paco, Miguel, Toni]
         amigos.add("Tintu")
@@ -30,7 +53,8 @@ class Listas {
         amigos.forEach {
             println("Amigo ${it}")
         }
-
+    }
+    fun EjemploOperacionesConListasMutable() {
         val myList = listOf(2,3,4,5,6,7,8)
         myList.any { it % 2 == 0} //devuelve true
         myList.all { it % 2 == 0} //devuelve false
@@ -45,6 +69,5 @@ class Listas {
         myList.take(3) //devuelve {2,3,4}
         myList.takeLast(2) //devuelve {7,8}
         myList.map{ it + 1 } //devuelve {3,4,5,6,7,8,9}
-
     }
 }

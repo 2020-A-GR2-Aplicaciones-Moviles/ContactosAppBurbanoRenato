@@ -1,4 +1,4 @@
-package com.burbanorenato.contactosappburbanorenato.ejercicios
+package com.epnfis.contactosapp.ejercicios
 
 class EjemploFor {
     fun EjemploFor(){

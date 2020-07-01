@@ -1,4 +1,4 @@
-package com.burbanorenato.contactosappburbanorenato.ejercicios
+package com.epnfis.contactosapp.ejercicios
 
 class EjemploWhen{
     fun ejemploWhen(){

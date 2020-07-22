@@ -7,4 +7,6 @@ const val PASSWORD_KEY = "PASSWORD_KEY"
 const val SECRET_FILENAME = "secret_shared_prefs"
 const val CONTACTS_FILENAME = "contactsfile.dat"
 
+const val PERMISSION_REQUEST_CODE = 100
+
 

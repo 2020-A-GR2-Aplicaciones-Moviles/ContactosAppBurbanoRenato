@@ -1,14 +1,12 @@
 package com.burbanorenato.contactosappburbanorenato
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Environment
-import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AlertDialogLayout
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.epnfis.contactosapp.CONTACTS_FILENAME
@@ -19,30 +17,38 @@ import kotlinx.android.synthetic.main.activity_login.*
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.util.regex.Matcher
-import java.util.regex.Pattern
-import com.burbanorenato.contactosappburbanorenato.ejercicios.EjercicioFunciones as EjercicioFunciones1
 
 class LoginActivity : AppCompatActivity() {
     lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-		InicializarArchivoDePreferencias()
-        LeerDatosDeArchivoPreferenciasEncriptado()
-        button.setOnClickListener {
+		//InicializarArchivoDePreferencias()
+        //LeerDatosDeArchivoPreferenciasEncriptado()
+        buttonView.setOnClickListener(){
+            Toast.makeText(this, ""+editTextTextEmailAddress.text.toString()+ " " +editTextTextPassword.text.toString(), Toast.LENGTH_SHORT).show()
+            var intent = Intent(this,PrincipalTmpActivity2::class.java)
+            intent.putExtra(LOGIN_KEY,editTextTextEmailAddress.text.toString())
+            startActivity(intent)
+            if(editTextTextEmailAddress.text.equals("renato@epn.edu.ec") and editTextTextPassword.text.equals("12345678")){
+                Toast.makeText(this, "Entró aquí", Toast.LENGTH_SHORT).show()
+                //finish()
+            }
+        }
 
-            EscribirDatosEnArchivoPreferenciasEncriptado()
-            EscribirDatosEnArchivoInterno()
-            LeerDatosEnArchivoInterno()
-            EscribirDatosEnArchivoExterno()
-            LeerDatosEnArchivoExterno()
+        //buttonRegister.setOnClickListener {
 
-            Toast.makeText(this, "Mensaje grabado", Toast.LENGTH_LONG).show()
-		
+
+            //EscribirDatosEnArchivoPreferenciasEncriptado()
+            //Toast.makeText(this, "Mensaje grabado", Toast.LENGTH_LONG).show()
 		////////
-        var obj = EjercicioFunciones1()
-
+            /*
+            val sendIntent = Intent(this, activity2::class.java)apply{
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, textMessage)
+                type = "text/plain"
+            }
+             */
 
         /*var email = editTextTextEmailAddress.text;
         var contraseña = editTextTextPassword.text;
@@ -59,8 +65,11 @@ class LoginActivity : AppCompatActivity() {
             }
         })*/
 
+      //  }
 
-    }}
+
+
+    }
     /*
 fun ValidarDatos(): Boolean {
         fun CharSequence?.isValidEmail() =
@@ -86,11 +95,12 @@ fun ValidarDatos(): Boolean {
             return false
         }
         return true
-    }*/
+    }
 
     fun EscribirDatosEnArchivoPreferencias() {
         val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        if (true/*checkBoxRecordarme.isChecked*/) {
+        if (checkBoxLogin.isChecked) {
+            checkBoxLogin
             val editor = sharedPref.edit()
             editor.putString(LOGIN_KEY, editTextTextEmailAddress.text.toString())
             editor.putString(PASSWORD_KEY, editTextTextPassword.text.toString())
@@ -108,7 +118,7 @@ fun ValidarDatos(): Boolean {
         editTextTextEmailAddress.setText(sharedPref.getString(LOGIN_KEY, ""))
         editTextTextPassword.setText(sharedPref.getString(PASSWORD_KEY, ""))
     }
-
+*/
     fun InicializarArchivoDePreferencias(){
         val masterKeyAlias: String = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
         sharedPreferences = EncryptedSharedPreferences.create(
@@ -121,7 +131,7 @@ fun ValidarDatos(): Boolean {
     }
 
     fun EscribirDatosEnArchivoPreferenciasEncriptado() {
-         if (true/*checkBoxRecordarme.isChecked*/) {
+         if (checkBoxLogin.isChecked) {
             sharedPreferences.edit()
                 .putString(LOGIN_KEY, editTextTextEmailAddress.text.toString())
                 .putString(PASSWORD_KEY, editTextTextPassword.text.toString())

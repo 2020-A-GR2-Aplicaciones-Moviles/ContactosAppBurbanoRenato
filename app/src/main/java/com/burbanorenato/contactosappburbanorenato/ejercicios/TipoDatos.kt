@@ -43,12 +43,12 @@ class TipoDatos {
     //Kotlin
     val name = "Eva"
     val age = 27
-    var message = "My name is $name and I am $age years old“
-
+    //var message = "My name is $name and I am $age years old“
+/*
     println(message) //Prints: My name is Eva and I am 27 years old
     message = "My name has ${name.length} characters"
     println(message) //Prints: My name has 3 characters
-
+*/
     //Boolean
     val flag: Boolean = true
     val flagl: Boolean? = null

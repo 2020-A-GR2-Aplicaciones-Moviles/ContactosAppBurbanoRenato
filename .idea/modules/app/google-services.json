@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1012991016318",
+    "firebase_url": "https://proyectocontactos-90afc.firebaseio.com",
+    "project_id": "proyectocontactos-90afc",
+    "storage_bucket": "proyectocontactos-90afc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1012991016318:android:3aa0cdc32914b2afb7072f",
+        "android_client_info": {
+          "package_name": "com.burbanorenato.contactosappburbanorenato"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1012991016318-jqnncj03lr8625vc37g526jhascj6tkt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.burbanorenato.contactosappburbanorenato",
+            "certificate_hash": "1278af763c5d4e119621d6d6048a5f1322b4a6fb"
+          }
+        },
+        {
+          "client_id": "1012991016318-naspkejpeliiou5f137ift519f3dmfch.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEBijq1eiAN48wdXHNImoKV4va6OXrxSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1012991016318-naspkejpeliiou5f137ift519f3dmfch.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

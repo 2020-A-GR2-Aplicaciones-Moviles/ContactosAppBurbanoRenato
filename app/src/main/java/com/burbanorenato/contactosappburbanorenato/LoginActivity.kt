@@ -13,6 +13,7 @@ import com.epnfis.contactosapp.CONTACTS_FILENAME
 import com.epnfis.contactosapp.LOGIN_KEY
 import com.epnfis.contactosapp.PASSWORD_KEY
 import com.epnfis.contactosapp.SECRET_FILENAME
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 import java.io.File
 import java.io.FileInputStream
@@ -20,13 +21,20 @@ import java.io.FileOutputStream
 
 class LoginActivity : AppCompatActivity() {
     lateinit var sharedPreferences: SharedPreferences
+    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-		//InicializarArchivoDePreferencias()
+        auth = FirebaseAuth.getInstance();
+        //InicializarArchivoDePreferencias()
         //LeerDatosDeArchivoPreferenciasEncriptado()
-        buttonView.setOnClickListener(){
-            Toast.makeText(this, ""+editTextTextEmailAddress.text.toString()+ " " +editTextTextPassword.text.toString(), Toast.LENGTH_SHORT).show()
+        buttonView.setOnClickListener() {
+
+            val email = editTextTextEmailAddress.text.toString()
+            val password = editTextTextPassword.text.toString()
+            AutenticarUsuario(email, password)
+/*
+                    Toast.makeText(this, ""+editTextTextEmailAddress.text.toString()+ " " +editTextTextPassword.text.toString(), Toast.LENGTH_SHORT).show()
             var intent = Intent(this,PrincipalTmpActivity2::class.java)
             intent.putExtra(LOGIN_KEY,editTextTextEmailAddress.text.toString())
             startActivity(intent)
@@ -34,14 +42,14 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Entró aquí", Toast.LENGTH_SHORT).show()
                 //finish()
             }
-        }
+        }*/
 
-        //buttonRegister.setOnClickListener {
+            //buttonRegister.setOnClickListener {
 
 
             //EscribirDatosEnArchivoPreferenciasEncriptado()
             //Toast.makeText(this, "Mensaje grabado", Toast.LENGTH_LONG).show()
-		////////
+            ////////
             /*
             val sendIntent = Intent(this, activity2::class.java)apply{
                 action = Intent.ACTION_SEND
@@ -50,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
             }
              */
 
-        /*var email = editTextTextEmailAddress.text;
+            /*var email = editTextTextEmailAddress.text;
         var contraseña = editTextTextPassword.text;
         val pattern: Pattern =
             Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
@@ -65,11 +73,26 @@ class LoginActivity : AppCompatActivity() {
             }
         })*/
 
-      //  }
+            //  }
 
 
-
+        }
     }
+    fun AutenticarUsuario(email:String, password:String){
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    var intent = Intent(this,PrincipalTmpActivity2::class.java)
+                    intent.putExtra(LOGIN_KEY,auth.currentUser!!.email)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    Toast.makeText(baseContext, task.exception!!.message,
+                        Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
     /*
 fun ValidarDatos(): Boolean {
         fun CharSequence?.isValidEmail() =

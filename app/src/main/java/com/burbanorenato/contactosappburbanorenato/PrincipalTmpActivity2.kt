@@ -8,11 +8,16 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.epnfis.contactosapp.ContactoAdapter
 import com.epnfis.contactosapp.ContactoModelClass
 import com.epnfis.contactosapp.LOGIN_KEY
@@ -25,6 +30,7 @@ import kotlinx.android.synthetic.main.activity_principal_tmp2.editTextTextEmailA
 import kotlinx.android.synthetic.main.activity_principal_tmp2.textViewEmailAddress
 import kotlinx.android.synthetic.main.activity_principal_tmp2.textViewFirstName
 import kotlinx.android.synthetic.main.activity_principal_tmp2.textViewLastName
+import org.json.JSONObject
 
 class PrincipalTmpActivity2 : AppCompatActivity() {
     var contactos = arrayListOf<ContactoModelClass>()
@@ -43,6 +49,8 @@ class PrincipalTmpActivity2 : AppCompatActivity() {
         actionBar!!.title = supportActionBar?.title.toString()
         actionBar.subtitle = username.substringBefore("@")
         actionBar.elevation = 4.0F
+        ConsultarContactos()
+
 
         /*contactos.add(ContactoModelClass(1,"Victor","Velepucha","09911223344", "victor.velepucha@epn.edu.ec"))
         contactos.add(ContactoModelClass(2,"Juan","Perez","0991234567", "juan.perez@epn.edu.ec"))
@@ -93,10 +101,10 @@ class PrincipalTmpActivity2 : AppCompatActivity() {
 
         buttonUpdate.setOnClickListener {
             contactos[selectedContactPosition].userId = editTextUserId.text.toString().toInt()
-            contactos[selectedContactPosition].firstName = textViewFirstName.text.toString()
-            contactos[selectedContactPosition].lastName = textViewLastName.text.toString()
+            contactos[selectedContactPosition].firstName = editTextTextFirstName.text.toString()
+            contactos[selectedContactPosition].lastName = editTextTextLastName.text.toString()
             contactos[selectedContactPosition].phoneNumber = editTextPhoneNumber.text.toString()
-            contactos[selectedContactPosition].emailAddress = textViewEmailAddress.text.toString()
+            contactos[selectedContactPosition].emailAddress = editTextTextEmailAddress.text.toString()
             listViewContacts.adapter = ContactoAdapter(this, contactos)
 
             val respuesta = ContactosSQLiteOpenHelper(this).updateContacto(contactos[selectedContactPosition])
@@ -204,4 +212,46 @@ class PrincipalTmpActivity2 : AppCompatActivity() {
             }
         }
     }
+
+    fun ConsultarContactos() {
+        val queue = Volley.newRequestQueue(this)
+        val url = "https://api.androidhive.info/contacts/"
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET, url, null,
+            Response.Listener { response ->
+                val jsonObj = JSONObject(response.toString())
+                val contacts = jsonObj.getJSONArray("contacts")
+                for (i in 0 until contacts.length()) {
+                    val c = contacts.getJSONObject(i)
+                    val id = c.getString("id").substring(1).toInt()
+                    val name = c.getString("name")
+                    val nombre = name.substringBefore(" ")
+                    val apellido = name.substringAfter(" ")
+                    val email = c.getString("email")
+                    //val address = c.getString("address")
+                    //val gender = c.getString("gender")
+                    val phone = c.getJSONObject("phone")
+                    val mobile = phone.getString("mobile")
+                    val home = phone.getString("home")
+                    //val office = phone.getString("office")
+                    val respuesta = ContactosSQLiteOpenHelper(this).addContacto(
+                        ContactoModelClass(
+                            id,
+                            nombre,
+                            apellido,
+                            mobile,
+                            email
+                        )
+                    )
+
+                }
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(this, "Error to read Webservice: ${error.message}", Toast.LENGTH_SHORT).show()
+                Log.d("MYTAG",error.message)
+            }
+        )
+        queue.add(jsonObjectRequest)
+    }
+
 }
